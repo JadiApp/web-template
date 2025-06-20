@@ -9,6 +9,7 @@
     "lint": "eslint .",
     "preview": "vite preview",
     "jadiapp": "bun ./fetch-data",
+    "push": "bun ./push-data",
     "package": "rm -rf src/components/*.tsx src/pages dist && tar -czf ../web-template.tar.gz ."
   },
   "dependencies": {
