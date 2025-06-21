@@ -11,6 +11,7 @@ export default defineConfig({
       "@": path.resolve(__dirname, "./src"),
       "@components": path.resolve(__dirname, "./src/components"),
       "@lib": path.resolve(__dirname, "./src/lib"),
+      html2canvas: path.resolve(__dirname, "node_modules/html2canvas-pro"),
     },
   },
 })
