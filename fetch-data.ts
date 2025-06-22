@@ -8,7 +8,7 @@ interface FileItem {
   filepath: string
 }
 
-async function getUiComponentFiles(base_url: string, unique_id: string, list_component: FileItem[]) {
+async function getUiComponentFiles(base_url: string, unique_id: string, list_component: FileItem[], semantic_versioning?: string) {
   const baseURL = base_url;
   await fsPromise.mkdir("./src/components", { recursive: true });
   
@@ -21,13 +21,13 @@ async function getUiComponentFiles(base_url: string, unique_id: string, list_com
       return;
     }
   
-    const components_file = (await axios.get('/public/raw/ui-components', { baseURL, params: { unique_id, filename } })).data;
+    const components_file = (await axios.get('/public/raw/ui-components', { baseURL, params: { unique_id, filename, semantic_versioning } })).data;
     console.log(`Writing component "${filename}" to "${filepath}"...`);
     await fsPromise.writeFile(`./${filepath}`, components_file);
   }));
 }
 
-async function getUiPageFiles(base_url: string, unique_id: string, list_page: FileItem[]) {
+async function getUiPageFiles(base_url: string, unique_id: string, list_page: FileItem[], semantic_versioning?: string) {
   const baseURL = base_url;
   await fsPromise.mkdir("./src/pages", { recursive: true });
 
@@ -41,7 +41,7 @@ async function getUiPageFiles(base_url: string, unique_id: string, list_page: Fi
     if (match) {
       const page_name = match[1];
       const url = match[2];
-      const pages_file = (await axios.get('/public/raw/ui-pages', { baseURL, params: { unique_id, filename } })).data;
+      const pages_file = (await axios.get('/public/raw/ui-pages', { baseURL, params: { unique_id, filename, semantic_versioning } })).data;
       console.log(`Writing page "${filename}" to "${filepath}"...`);
       await fsPromise.writeFile(`./${filepath}`, pages_file);
       list_pages_data.push([url, `P${i + 1}`, filepath, page_name]);
@@ -67,11 +67,11 @@ ${list_pages_data.map(([url, page_jsx, filename_final, description]) => [`    //
 `)
 }
 
-async function fetch_data(baseURL: string, unique_id: string) {
-  const page_components_data: { components: FileItem[], pages: FileItem[] } = (await axios.get('/public/page-component-data', { baseURL, params: { unique_id } })).data;
+async function fetch_data(baseURL: string, unique_id: string, semantic_versioning?: string) {
+  const page_components_data: { components: FileItem[], pages: FileItem[] } = (await axios.get('/public/page-component-data', { baseURL, params: { unique_id, semantic_versioning } })).data;
   await Promise.all([
-    await getUiComponentFiles(baseURL, unique_id, page_components_data.components),
-    await getUiPageFiles(baseURL, unique_id, page_components_data.pages)
+    await getUiComponentFiles(baseURL, unique_id, page_components_data.components, semantic_versioning),
+    await getUiPageFiles(baseURL, unique_id, page_components_data.pages, semantic_versioning)
   ]);
 }
 
@@ -79,7 +79,7 @@ async function fetch_data(baseURL: string, unique_id: string) {
 const argv: any = process.argv;
 
 if (argv[2] && argv[3]) {
-  fetch_data(argv[2], argv[3]);
+  fetch_data(argv[2], argv[3], argv[4] as string | undefined);
 } else {
   throw new Error(`argv[2] is required (baseURL); argv[3] is required (unique_id)`);
 }
