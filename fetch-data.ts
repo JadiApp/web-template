@@ -56,8 +56,9 @@ import {
   createBrowserRouter,
   RouterProvider,
 } from "react-router";
-import { createRoot } from 'react-dom/client'
+import { createRoot } from 'react-dom/client';
 import { Toaster } from 'sonner';
+${list_pages_data.map(([url, page_jsx, filename_final, description]) => `import ${page_jsx} from '../${filename_final}';`).join('\n')}
 
 createRoot(document.getElementById('root')!).render(
   <>

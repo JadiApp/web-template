@@ -3,7 +3,7 @@ import {
   createBrowserRouter,
   RouterProvider,
 } from "react-router";
-import { createRoot } from 'react-dom/client'
+import { createRoot } from 'react-dom/client';
 import { Toaster } from 'sonner';
 
 createRoot(document.getElementById('root')!).render(
