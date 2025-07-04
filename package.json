@@ -10,7 +10,7 @@
     "preview": "vite preview",
     "jadiapp": "bun ./fetch-data",
     "push": "bun ./push-data",
-    "adf": "sh -c 'npx @graf-research/adf-codegen-api-axios \"https://code.jadiapp.com/raw/adf?unique_id=$1&dep_unique_id=$2\" axios-client' --",
+    "adf": "sh -c 'npx @graf-research/adf-codegen-api-axios \"https://code.jadiapp.com/raw/adf?unique_id=$1&dep_unique_id=$2\" src/axios-client' --",
     "package": "rm -rf src/components/*.tsx src/pages dist && tar -czf ../web-template.tar.gz ."
   },
   "dependencies": {
