@@ -57,12 +57,15 @@ import {
   RouterProvider,
 } from "react-router";
 import { createRoot } from 'react-dom/client'
-${list_pages_data.map(([url, page_jsx, filename_final, description]) => `import ${page_jsx} from '../${filename_final}';`).join('\n')}
+import { Toaster } from 'sonner';
 
 createRoot(document.getElementById('root')!).render(
-  <RouterProvider router={createBrowserRouter([
-${list_pages_data.map(([url, page_jsx, filename_final, description]) => [`    // [${filename_final}] ${description}`, `    { path: "${url}", element: <${page_jsx} /> },`].join('\n')).join('\n')}
-  ])} />
+  <>
+    <RouterProvider router={createBrowserRouter([
+${list_pages_data.map(([url, page_jsx, filename_final, description]) => [`      // [${filename_final}] ${description}`, `      { path: "${url}", element: <${page_jsx} /> },`].join('\n')).join('\n')}
+    ])} />
+    <Toaster />
+  </>
 );
 `)
 }

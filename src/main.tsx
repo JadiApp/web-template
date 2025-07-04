@@ -4,8 +4,12 @@ import {
   RouterProvider,
 } from "react-router";
 import { createRoot } from 'react-dom/client'
+import { Toaster } from 'sonner';
 
 createRoot(document.getElementById('root')!).render(
-  <RouterProvider router={createBrowserRouter([
-  ])} />
+  <>
+    <RouterProvider router={createBrowserRouter([
+    ])} />
+    <Toaster />
+  </>
 );
